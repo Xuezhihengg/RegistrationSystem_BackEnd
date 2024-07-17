@@ -1,8 +1,7 @@
 package com.example.utils;
 
-import com.example.entity.response_entity.BusinessCodes;
-import com.example.entity.response_entity.BusinessException;
-import com.example.entity.response_entity.ResponseResult;
+import com.example.entity.dto.response_entity.BusinessException;
+import com.example.entity.dto.response_entity.ResponseResult;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

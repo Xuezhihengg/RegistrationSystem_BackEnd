@@ -1,5 +1,6 @@
-package com.example.entity.response_entity;
+package com.example.entity.dto.response_entity;
 
+import com.example.utils.ResponseStatus;
 import lombok.Builder;
 import lombok.Data;
 

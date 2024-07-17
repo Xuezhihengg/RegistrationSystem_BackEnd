@@ -1,6 +1,7 @@
-package com.example.entity.response_entity;
+package com.example.entity.dto.response_entity;
 
 
+import com.example.utils.BusinessCodes;
 import lombok.Getter;
 import lombok.Setter;
 

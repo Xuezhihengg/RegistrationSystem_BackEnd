@@ -1,9 +1,10 @@
 package com.example.controller;
 
 import com.example.entity.Batch;
-import com.example.entity.response_entity.BusinessCodes;
-import com.example.entity.response_entity.BusinessException;
-import com.example.entity.response_entity.ResponseResult;
+import com.example.entity.dto.response_entity.BatchesWIthPageInfo;
+import com.example.utils.BusinessCodes;
+import com.example.entity.dto.response_entity.BusinessException;
+import com.example.entity.dto.response_entity.ResponseResult;
 import com.example.service.impl.BatchServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,26 +23,32 @@ import java.util.List;
  */
 
 
-
-@Tag(name = "批次表操作接口" ,description = "Batch")
+@Tag(name = "批次表操作接口", description = "Batch")
 @RestController
 @RequestMapping("/batch")
 public class BatchController {
     @Autowired
     BatchServiceImpl batchServiceImpl;
 
-    @Operation(summary = "获取全部批次")
-    @GetMapping("all")
-    public ResponseResult<List<Batch>> getAll() throws BusinessException {
-        List<Batch> responseData =batchServiceImpl.list() ;
-        if(responseData == null || responseData.isEmpty()) throw new BusinessException(BusinessCodes.Get_All_Batch_Failed);
-        return ResponseResult.success(responseData);
+    @Operation(summary = "获取指定批次信息")
+    @GetMapping("/{batchId}")
+    public ResponseResult<Batch> getById(@PathVariable String batchId) throws BusinessException {
+        Batch batch = batchServiceImpl.getById(batchId);
+        if (batch == null) throw new BusinessException(BusinessCodes.Get_Batch_Failed);
+        return ResponseResult.success(batch);
+    }
+
+    @Operation(summary = "分页获取全部批次")
+    @GetMapping("all/{pageNum}")
+    public ResponseResult<BatchesWIthPageInfo> getAll(@PathVariable int pageNum) throws BusinessException {
+        return ResponseResult.success(batchServiceImpl.getAllBatches(pageNum));
+
     }
 
     @Operation(summary = "创建新批次")
     @PostMapping
     public ResponseResult<Batch> add(@RequestBody Batch batch) throws BusinessException {
-        if(batch == null) throw new BusinessException(BusinessCodes.Create_New_Batch_Failed);
+        if (batch == null) throw new BusinessException(BusinessCodes.Create_New_Batch_Failed);
         batchServiceImpl.save(batch);
         return ResponseResult.success(batch);
     }

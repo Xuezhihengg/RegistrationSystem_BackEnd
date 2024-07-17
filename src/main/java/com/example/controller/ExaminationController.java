@@ -2,9 +2,9 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Examination;
-import com.example.entity.response_entity.BusinessCodes;
-import com.example.entity.response_entity.BusinessException;
-import com.example.entity.response_entity.ResponseResult;
+import com.example.utils.BusinessCodes;
+import com.example.entity.dto.response_entity.BusinessException;
+import com.example.entity.dto.response_entity.ResponseResult;
 import com.example.service.impl.ExaminationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
