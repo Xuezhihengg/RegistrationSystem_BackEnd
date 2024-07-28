@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Examination;
+import com.example.entity.dto.response_entity.NameListItem;
 import com.example.utils.BusinessCodes;
 import com.example.entity.dto.response_entity.BusinessException;
 import com.example.entity.dto.response_entity.ResponseResult;
@@ -42,6 +43,12 @@ public class ExaminationController {
             throw new BusinessException(BusinessCodes.Fetch_Exams_By_BatchId_Failed);
 
         return ResponseResult.success(responseData);
+    }
+
+    @Operation(summary = "获取指定考试的监考名单")
+    @GetMapping("nameList/{examId}")
+    public ResponseResult<List<NameListItem>> getNameList(@PathVariable("examId") String examId) throws BusinessException {
+        return ResponseResult.success(examinationServiceImpl.getNameList(examId));
     }
 }
 

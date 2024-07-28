@@ -38,18 +38,17 @@ public class BatchController {
         return ResponseResult.success(batch);
     }
 
-    @Operation(summary = "分页获取全部批次")
-    @GetMapping("all/{pageNum}")
-    public ResponseResult<BatchesWIthPageInfo> getAll(@PathVariable int pageNum) throws BusinessException {
-        return ResponseResult.success(batchServiceImpl.getAllBatches(pageNum));
-
-    }
-
     @Operation(summary = "创建新批次")
     @PostMapping
     public ResponseResult<Batch> add(@RequestBody Batch batch) throws BusinessException {
         if (batch == null) throw new BusinessException(BusinessCodes.Create_New_Batch_Failed);
         batchServiceImpl.save(batch);
         return ResponseResult.success(batch);
+    }
+
+    @Operation(summary = "分页模糊搜索批次列表",description = "如果keyword为no_search则不进行搜索，如果pageNum为-1则不进行分页")
+    @GetMapping("/search/{keyword}/{pageNum}")
+    public ResponseResult<BatchesWIthPageInfo> search(@PathVariable String keyword,@PathVariable int pageNum) throws BusinessException {
+        return ResponseResult.success(batchServiceImpl.getBatches(keyword,pageNum));
     }
 }

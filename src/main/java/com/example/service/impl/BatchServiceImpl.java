@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Batch;
 import com.example.dao.BatchMapper;
 import com.example.entity.dto.response_entity.BatchesWIthPageInfo;
@@ -27,14 +28,26 @@ public class BatchServiceImpl extends ServiceImpl<BatchMapper, Batch> implements
     @Autowired
     BatchMapper batchMapper;
 
-    public BatchesWIthPageInfo getAllBatches(int pageNum) throws BusinessException {
-        PageHelper.startPage(pageNum, 10);
-        List<Batch> batches = batchMapper.selectList(null);
-        if (batches == null || batches.isEmpty()) throw new BusinessException(BusinessCodes.Get_Batch_Failed);
-        // 获取分页信息
-        PageInfo<Batch> pageInfo = new PageInfo<>(batches);
-        int totalPages = pageInfo.getPages();
-
+    public BatchesWIthPageInfo getBatches(String keyword, int pageNum) throws BusinessException {
+        QueryWrapper<Batch> queryWrapper = new QueryWrapper<>();
+        if (!keyword.equals("no_search")) {
+            queryWrapper.like("batch_name", keyword)
+                    .or().like("batch_id", keyword)
+                    .or().like("start_date", keyword)
+                    .or().like("end_date", keyword);
+        }
+        List<Batch> batches;
+        int totalPages;
+        if (pageNum == -1) {
+            batches = batchMapper.selectList(queryWrapper);
+            totalPages = -1;
+        } else {
+            PageHelper.startPage(pageNum, 10);
+            batches = batchMapper.selectList(queryWrapper);
+            if (batches == null || batches.isEmpty()) throw new BusinessException(BusinessCodes.Get_Batch_Failed);
+            PageInfo<Batch> pageInfo = new PageInfo<>(batches);
+            totalPages = pageInfo.getPages();
+        }
         return BatchesWIthPageInfo.builder().batches(batches).totalPages(totalPages).build();
     }
 
