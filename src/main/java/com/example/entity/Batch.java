@@ -8,6 +8,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Builder
 @TableName("Batch")
 @Schema(name = "Batch", description = "批次表")
 public class Batch implements Serializable {

@@ -39,7 +39,7 @@ public class ExaminationController {
         QueryWrapper<Examination> sectionQueryWrapper = new QueryWrapper<>();
         sectionQueryWrapper.eq("batch_id", batchId);
         List<Examination> responseData = examinationServiceImpl.list(sectionQueryWrapper);
-        if (responseData == null || responseData.isEmpty())
+        if (responseData == null)
             throw new BusinessException(BusinessCodes.Fetch_Exams_By_BatchId_Failed);
 
         return ResponseResult.success(responseData);
