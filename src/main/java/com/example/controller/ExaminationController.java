@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.entity.Examination;
+import com.example.entity.dto.request_entity.NewExamRequest;
 import com.example.entity.dto.response_entity.NameListItem;
 import com.example.utils.BusinessCodes;
 import com.example.entity.dto.response_entity.BusinessException;
@@ -10,10 +11,7 @@ import com.example.service.impl.ExaminationServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,6 +47,24 @@ public class ExaminationController {
     @GetMapping("nameList/{examId}")
     public ResponseResult<List<NameListItem>> getNameList(@PathVariable("examId") String examId) throws BusinessException {
         return ResponseResult.success(examinationServiceImpl.getNameList(examId));
+    }
+
+    @Operation(summary = "创建新考试")
+    @PostMapping("/new")
+    public ResponseResult<Examination> createExamination(@RequestBody NewExamRequest newExamRequest) throws BusinessException {
+        Examination examination = Examination.builder()
+                .examId(newExamRequest.getExamId())
+                .batchId(newExamRequest.getBatchId())
+                .examName(newExamRequest.getExamName())
+                .address(newExamRequest.getAddress())
+                .campus(newExamRequest.getCampus())
+                .startTime(newExamRequest.getStartTime())
+                .endTime(newExamRequest.getEndTime())
+                .minorInvigilator(null)
+                .chiefInvigilator(null)
+                .build();
+        examinationServiceImpl.save(examination);
+        return ResponseResult.success(examination);
     }
 }
 
