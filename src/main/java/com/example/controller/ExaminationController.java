@@ -32,7 +32,7 @@ public class ExaminationController {
     ExaminationServiceImpl examinationServiceImpl;
 
     @Operation(summary = "获取指定批次的全部考试信息")
-    @GetMapping("{batch_id}")
+    @GetMapping("/examList/{batch_id}")
     public ResponseResult<List<Examination>> getExaminationByBatchId(@PathVariable("batch_id") String batchId) throws BusinessException {
         QueryWrapper<Examination> sectionQueryWrapper = new QueryWrapper<>();
         sectionQueryWrapper.eq("batch_id", batchId);
@@ -64,6 +64,14 @@ public class ExaminationController {
                 .chiefInvigilator(null)
                 .build();
         examinationServiceImpl.save(examination);
+        return ResponseResult.success(examination);
+    }
+
+    @Operation(summary = "获取指定考试的详细信息")
+    @GetMapping("/{examId}")
+    public ResponseResult<Examination> getExaminationById(@PathVariable("examId") String examId) throws BusinessException {
+        Examination examination = examinationServiceImpl.getById(examId);
+        if(examination == null) throw new BusinessException(BusinessCodes.Get_Examination_Failed);
         return ResponseResult.success(examination);
     }
 }
