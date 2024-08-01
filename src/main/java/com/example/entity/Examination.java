@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Tolerate;
 
 /**
  * <p>
@@ -20,14 +22,17 @@ import lombok.Setter;
  * @author xuezhihengg
  * @since 2024-07-16
  */
-@Getter
-@Setter
+
+@Data
 @Builder
 @TableName("Examination")
 @Schema(name = "Examination", description = "考试表")
 public class Examination implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Tolerate
+    public Examination() {}
 
     @Schema(description = "考试编号")
     @TableId("exam_id")

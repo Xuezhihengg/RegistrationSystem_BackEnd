@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * <p>
@@ -62,7 +61,7 @@ public class BatchController {
             String newPath = fileServiceImpl.upload(file);
             batch.setAttachment(newPath);
         } catch (IOException e) {
-            throw new BusinessException(BusinessCodes.Upload_Attachment_Failed);
+            throw new BusinessException(BusinessCodes.Upload_File_Failed);
         }
         batchServiceImpl.save(batch);
         return ResponseResult.success(batch);

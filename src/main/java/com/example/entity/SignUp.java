@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
 import java.io.Serializable;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.Tolerate;
 
 /**
  * <p>
@@ -18,13 +19,18 @@ import lombok.Setter;
  * @author xuezhihengg
  * @since 2024-07-16
  */
-@Getter
-@Setter
+@Data
+@Builder
+@ToString
 @TableName("SignUp")
 @Schema(name = "SignUp", description = "报名表")
 public class SignUp implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Tolerate
+    public SignUp() {
+    }
 
     @Schema(description = "工号")
     @TableId("personnel_id")
@@ -49,4 +55,8 @@ public class SignUp implements Serializable {
     @Schema(description = "是否被拒绝")
     @TableField("is_reject")
     private Boolean isReject;
+
+    @Schema(description = "被谁邀请")
+    @TableField("invited_by")
+    private String invitedBy;
 }
